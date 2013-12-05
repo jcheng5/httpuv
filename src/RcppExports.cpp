@@ -53,6 +53,24 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// makeUdpServer
+Rcpp::RObject makeUdpServer(const std::vector<std::string>& multicastAddresses, const std::string& host, int port, Rcpp::Function onMessage);
+RcppExport SEXP httpuv_makeUdpServer(SEXP multicastAddressesSEXP, SEXP hostSEXP, SEXP portSEXP, SEXP onMessageSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< const std::vector<std::string>& >::type multicastAddresses(multicastAddressesSEXP );
+        Rcpp::traits::input_parameter< const std::string& >::type host(hostSEXP );
+        Rcpp::traits::input_parameter< int >::type port(portSEXP );
+        Rcpp::traits::input_parameter< Rcpp::Function >::type onMessage(onMessageSEXP );
+        Rcpp::RObject __result = makeUdpServer(multicastAddresses, host, port, onMessage);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // makePipeServer
 Rcpp::RObject makePipeServer(const std::string& name, int mask, Rcpp::Function onHeaders, Rcpp::Function onBodyData, Rcpp::Function onRequest, Rcpp::Function onWSOpen, Rcpp::Function onWSMessage, Rcpp::Function onWSClose);
 RcppExport SEXP httpuv_makePipeServer(SEXP nameSEXP, SEXP maskSEXP, SEXP onHeadersSEXP, SEXP onBodyDataSEXP, SEXP onRequestSEXP, SEXP onWSOpenSEXP, SEXP onWSMessageSEXP, SEXP onWSCloseSEXP) {

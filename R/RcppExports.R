@@ -13,6 +13,10 @@ makeTcpServer <- function(host, port, onHeaders, onBodyData, onRequest, onWSOpen
     .Call('httpuv_makeTcpServer', PACKAGE = 'httpuv', host, port, onHeaders, onBodyData, onRequest, onWSOpen, onWSMessage, onWSClose)
 }
 
+makeUdpServer <- function(multicastAddresses, host, port, onMessage) {
+    .Call('httpuv_makeUdpServer', PACKAGE = 'httpuv', multicastAddresses, host, port, onMessage)
+}
+
 makePipeServer <- function(name, mask, onHeaders, onBodyData, onRequest, onWSOpen, onWSMessage, onWSClose) {
     .Call('httpuv_makePipeServer', PACKAGE = 'httpuv', name, mask, onHeaders, onBodyData, onRequest, onWSOpen, onWSMessage, onWSClose)
 }

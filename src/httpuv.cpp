@@ -13,6 +13,7 @@
 #include <base64.hpp>
 #include "uvutil.h"
 #include "http.h"
+#include "udp.h"
 #include "filedatasource.h"
 
 std::string normalizeHeaderName(const std::string& name) {
@@ -337,6 +338,28 @@ Rcpp::RObject makeTcpServer(const std::string& host, int port,
   }
 
   return Rcpp::wrap(externalize<uv_stream_t>(pServer));
+}
+
+class RUdpApplication : public UdpApplication {
+private:
+  Rcpp::Function _onMessageCallback;
+public:
+  RUdpApplication(const Rcpp::Function& onMessageCallback)
+    : _onMessageCallback(onMessageCallback) {
+  }
+  void onMessage(const Address& addr,
+                 const char* data, size_t len,
+                 unsigned flags) {
+    _onMessageCallback(std::vector<uint8_t>(data, data + len));
+  }
+};
+// [[Rcpp::export]]
+Rcpp::RObject makeUdpServer(const std::vector<std::string>& multicastAddresses,
+                            const std::string& host, int port,
+                            Rcpp::Function onMessage) {
+  RUdpApplication* pHandler = new RUdpApplication(onMessage);
+  uv_udp_t* pServer = createUdpServer(multicastAddresses, host, port, pHandler);
+  return Rcpp::wrap(externalize<uv_udp_t>(pServer));
 }
 
 // [[Rcpp::export]]

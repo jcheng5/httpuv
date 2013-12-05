@@ -349,6 +349,14 @@ startServer <- function(host, port, app) {
   return(server)
 }
 
+startUdpServer <- function(multicastAddress, host, port, onMessage) {
+  server <- makeUdpServer(multicastAddress, host, port, onMessage)
+  if (is.null(server)) {
+    stop("Failed to create server")
+  }
+  return(server)
+}
+
 #' @param name A string that indicates the path for the domain socket (on 
 #'   Unix-like systems) or the name of the named pipe (on Windows).
 #' @param mask If non-\code{NULL} and non-negative, this numeric value is used 
